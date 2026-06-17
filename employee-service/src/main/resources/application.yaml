@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: employee-service
+
+app:
+  kafka:
+    group-id: employee-service-consumer
+    bootstrap-servers: localhost:9092
+    schema-registry-url: http://localhost:8081
+
+
+

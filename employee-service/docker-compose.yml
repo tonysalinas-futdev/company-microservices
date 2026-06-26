@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-17}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_DB: ${POSTGRES_DB:-employeesdb}
+    healthcheck:
+      test: [ "CMD-SHELL", "bash -c '</dev/tcp/${POSTGRES_HOST:-localhost}/${POSTGRES_PORT:-5432}'" ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,0 +1,1 @@
+INSERT INTO employee(id,full_name,email,salary,department_id,role,position,is_active) VALUES (10,'Juan Carlos Chao Salinas','carlos@gmail.com',1500.00,'4','JUNIOR','SOFTWARE_ENGINEER',true),(2,'Juan Antonio Chao Salinas','antonio@gmail.com',2000.00,'4','SENIOR','SOFTWARE_ENGINEER',true),(3,'Dexter Morgan','dexter@gmail.com',1000.00,'5','JUNIOR','QA_ENGINEER',true)

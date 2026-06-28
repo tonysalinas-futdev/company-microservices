@@ -4,8 +4,10 @@ import com.tony.employee_service.domain.exceptions.EmployeeException;
 import org.javamoney.moneta.Money;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class Employee {
+    private String id;
     private String fullName;
     private String email;
     private String departmentId;
@@ -29,6 +31,7 @@ public class Employee {
         if (role == null){
             throw new EmployeeException("The employee must have a role");
         }
+        this.id= UUID.randomUUID().toString();
         this.fullName=fullName;
         this.email=email;
         this.departmentId=departmentId;
@@ -38,6 +41,7 @@ public class Employee {
         this.salary=Money.of(salary,"USD");
 
     }
+    public String getId(){ return id;}
 
     public String getFullName() {
         return fullName;

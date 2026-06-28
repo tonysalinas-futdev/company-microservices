@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class GetByIdOrThrowUseCase {
     private final EmployeeRepository repo;
 
-    public EmployeeModel execute(Long id){
+    public EmployeeModel execute(String id){
         return repo.findById(id).orElseThrow(()-> new NotFoundException("Employee with id:" + id + " not found"));
     }
 }

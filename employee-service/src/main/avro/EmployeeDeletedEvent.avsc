@@ -6,7 +6,7 @@
 
     {
       "name": "id",
-      "type": "long"
+      "type": "string"
     },
     {
       "name": "timestamp",

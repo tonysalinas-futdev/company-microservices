@@ -1,7 +1,6 @@
-package com.tony.employee_service.domain;
+package com.tony.employee_service.domain.service;
 
 import com.tony.employee_service.domain.exceptions.AlreadyExistsException;
-import com.tony.employee_service.domain.exceptions.EmployeeException;
 import com.tony.employee_service.infraestructure.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

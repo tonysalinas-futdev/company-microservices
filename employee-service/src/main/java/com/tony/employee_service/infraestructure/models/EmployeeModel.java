@@ -19,8 +19,7 @@ import java.time.Instant;
 @ToString
 public class EmployeeModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(name = "full_name")
     private String fullName;

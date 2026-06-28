@@ -20,6 +20,17 @@ app:
     bootstrap-servers: ${BROKER_HOST:localhost}:${BROKER_PORT:9092}
     schema-registry-url: http://${SCHEMA_REGISTRY_HOST:localhost}:${SCHEMA_REGISTRY_PORT:8081}
     topics:
-      employee: employee.events
+      employee-created: employee.created
+      employee-updated: employee.updated
+      employee-deleted: employee.deleted
 server:
   port: ${APPLICATION_PORT:8080}
+logging:
+  level:
+    com.netflix.discovery: WARN
+    com.netflix.eureka: WARN
+
+value:
+  subject:
+    name:
+      strategy: io.confluent.kafka

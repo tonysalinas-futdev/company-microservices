@@ -6,7 +6,7 @@
 
     {
       "name": "id",
-      "type": "long"
+      "type": "string"
     },
 
     {
@@ -39,14 +39,14 @@
       "type": "string"
     },
 
-
     {
       "name": "salary",
-      "type": "bytes",
-      "logicalType": "decimal",
-      "precision": 8,
-      "scale": 2
-    },
+      "type": {
+        "type": "bytes",
+        "logicalType": "decimal",
+        "precision": 8,
+        "scale": 2
+    }},
 
 
     {

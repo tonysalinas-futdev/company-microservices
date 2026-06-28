@@ -1,8 +1,9 @@
 package com.tony.employee_service.application.usecases;
 
-import com.tony.employee_service.domain.EmailUniquenessVerificationService;
+import com.tony.employee_service.domain.event.EmployeeCreatedDomainEvent;
+import com.tony.employee_service.domain.service.EmailUniquenessVerificationService;
 import com.tony.employee_service.domain.entitys.Employee;
-import com.tony.employee_service.infraestructure.dto.CreateEmployeeDTO;
+import com.tony.employee_service.application.dto.CreateEmployeeDTO;
 import com.tony.employee_service.infraestructure.event.specificproducer.EmployeeEventsProducer;
 import com.tony.employee_service.infraestructure.mapper.EmployeeMapper;
 import com.tony.employee_service.infraestructure.models.EmployeeModel;
@@ -31,7 +32,7 @@ public class CreateEmployeeUseCase {
         model.setSalary(dto.getSalary());
         repo.saveAndFlush(model);
         log.info("Successfully created employee: {}", model);
-        producer.produceEmployeeCreatedEvent(model);
+        producer.produceEmployeeCreatedEvent(EmployeeCreatedDomainEvent.of(domainEntity));
 
         return model;
     }

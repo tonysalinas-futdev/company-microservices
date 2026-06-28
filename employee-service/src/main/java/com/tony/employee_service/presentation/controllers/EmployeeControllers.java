@@ -2,8 +2,8 @@ package com.tony.employee_service.presentation.controllers;
 
 
 import com.tony.employee_service.application.usecases.*;
-import com.tony.employee_service.infraestructure.dto.CreateEmployeeDTO;
-import com.tony.employee_service.infraestructure.dto.UpdateEmployeeDTO;
+import com.tony.employee_service.application.dto.CreateEmployeeDTO;
+import com.tony.employee_service.application.dto.UpdateEmployeeDTO;
 import com.tony.employee_service.infraestructure.models.EmployeeModel;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ public class EmployeeControllers {
 
     @Operation(description = "Get employee by id", summary = "Get employee by id")
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeModel> getEmployeeById(@PathVariable Long id){
+    public ResponseEntity<EmployeeModel> getEmployeeById(@PathVariable String id){
         return ResponseEntity.ok(getByIdOrThrowUseCase.execute(id));
     }
 
@@ -46,7 +46,7 @@ public class EmployeeControllers {
 
     @Operation(description = "Update employee", summary = "Update employee")
     @PatchMapping("/{id}")
-    public ResponseEntity<EmployeeModel> updateEmployee(@PathVariable Long id, @RequestBody UpdateEmployeeDTO dto){
+    public ResponseEntity<EmployeeModel> updateEmployee(@PathVariable String id, @RequestBody UpdateEmployeeDTO dto){
         return ResponseEntity.ok(updateEmployeeUseCase.execute(dto, id));
     }
 
@@ -54,7 +54,7 @@ public class EmployeeControllers {
     @Operation(description = "Delete employee", summary = "Delete employee")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>deleteEmployee(@PathVariable Long id){
+    public ResponseEntity<Void>deleteEmployee(@PathVariable String id){
         deleteEmployeeUseCase.execute(id);
         return ResponseEntity.noContent().build();
     }

@@ -3,34 +3,8 @@ spring:
     name: employee-service
 
   config:
-    import: optional:configserver:${CONFIG_SERVER_URL},optional:file:./employee-service/.env[.properties],optional:file:./.env[.properties]
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:employeesdb}
-    username: ${POSTGRES_USER:user}
-    password: ${POSTGRES_PASSWORD:password}
+    import: optional:file:./employee-service/.env[.properties],optional:file:./.env[.properties],optional:configserver:http://localhost:8075
 
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
 
-app:
-  kafka:
-    group-id: employee-service-consumer
-    bootstrap-servers: ${BROKER_HOST:localhost}:${BROKER_PORT:9092}
-    schema-registry-url: http://${SCHEMA_REGISTRY_HOST:localhost}:${SCHEMA_REGISTRY_PORT:8081}
-    topics:
-      employee-created: employee.created
-      employee-updated: employee.updated
-      employee-deleted: employee.deleted
-server:
-  port: ${APPLICATION_PORT:8080}
-logging:
-  level:
-    com.netflix.discovery: WARN
-    com.netflix.eureka: WARN
-
-value:
-  subject:
-    name:
-      strategy: io.confluent.kafka
+  profiles:
+    active: ${ACTIVE_PROFILE}

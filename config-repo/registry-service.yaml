@@ -1,16 +1,8 @@
-
 spring:
-  application:
-    name: registry-service
-
   cloud:
     config:
       username: ${CLOUD_USERNAME:user}
       password: ${CLOUD_PASSWORD:s3cr3t}
-
-  config:
-    import: optional:configserver:http://localhost:8075,optional:file:./registry-service/.env[.properties],optional:file:./.env[.properties]
-
 
 server:
   port: 8074

@@ -1,3 +1,22 @@
 spring:
+  cloud:
+    config:
+      username: ${CLOUD_USERNAME:user}
+      password: ${CLOUD_PASSWORD:s3cr3t}
   application:
     name: config-server
+  config:
+    import: optional:file:./config-server/.env[.properties],optional:file:./.env[.properties]
+  profiles:
+    active: ${ACTIVE_PROFILE}
+
+server:
+  port: ${APPLICATION_PORT}
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+  instance:
+    prefer-ip-address: true

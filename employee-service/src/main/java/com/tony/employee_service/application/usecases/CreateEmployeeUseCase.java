@@ -1,9 +1,9 @@
 package com.tony.employee_service.application.usecases;
 
+import com.tony.employee_service.application.dto.CreateEmployeeDTO;
+import com.tony.employee_service.domain.entitys.Employee;
 import com.tony.employee_service.domain.event.EmployeeCreatedDomainEvent;
 import com.tony.employee_service.domain.service.EmailUniquenessVerificationService;
-import com.tony.employee_service.domain.entitys.Employee;
-import com.tony.employee_service.application.dto.CreateEmployeeDTO;
 import com.tony.employee_service.infraestructure.event.specificproducer.EmployeeEventsProducer;
 import com.tony.employee_service.infraestructure.mapper.EmployeeMapper;
 import com.tony.employee_service.infraestructure.models.EmployeeModel;
@@ -18,22 +18,22 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class CreateEmployeeUseCase {
-    private final EmployeeRepository repo;
-    private final EmployeeEventsProducer producer;
-    private final EmployeeMapper mapper;
-    private final EmailUniquenessVerificationService verificationService;
+  private final EmployeeRepository repo;
+  private final EmployeeEventsProducer producer;
+  private final EmployeeMapper mapper;
+  private final EmailUniquenessVerificationService verificationService;
 
-    public EmployeeModel execute(CreateEmployeeDTO dto){
-        verificationService.verify(dto.getEmail());
-        Employee domainEntity=mapper.createEmployeeDtoToEntity(dto);
+  public EmployeeModel execute(CreateEmployeeDTO dto) {
+    verificationService.verify(dto.getEmail());
+    Employee domainEntity = mapper.createEmployeeDtoToEntity(dto);
 
-        EmployeeModel model=mapper.entityToModel(domainEntity);
-        model.setIsActive(true);
-        model.setSalary(dto.getSalary());
-        repo.saveAndFlush(model);
-        log.info("Successfully created employee: {}", model);
-        producer.produceEmployeeCreatedEvent(EmployeeCreatedDomainEvent.of(domainEntity));
+    EmployeeModel model = mapper.entityToModel(domainEntity);
+    model.setIsActive(true);
+    model.setSalary(dto.getSalary());
+    repo.saveAndFlush(model);
+    log.info("Successfully created employee: {}", model);
+    producer.produceEmployeeCreatedEvent(EmployeeCreatedDomainEvent.of(domainEntity));
 
-        return model;
-    }
+    return model;
+  }
 }

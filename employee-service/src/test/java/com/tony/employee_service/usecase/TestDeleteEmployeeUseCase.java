@@ -1,13 +1,13 @@
 package com.tony.employee_service.usecase;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.tony.employee_service.application.dto.CreateEmployeeDTO;
 import com.tony.employee_service.application.usecases.CreateEmployeeUseCase;
+import com.tony.employee_service.application.usecases.DeleteEmployeeUseCase;
+import com.tony.employee_service.application.usecases.GetByIdOrThrowUseCase;
 import com.tony.employee_service.domain.entitys.Position;
 import com.tony.employee_service.domain.entitys.Role;
-import com.tony.employee_service.domain.exceptions.AlreadyExistsException;
 import com.tony.employee_service.infraestructure.models.EmployeeModel;
 import com.tony.employee_service.infraestructure.repositories.EmployeeRepository;
 import java.math.BigDecimal;
@@ -19,9 +19,12 @@ import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest
 @Sql(scripts = "classpath:clean.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-public class TestCreateEmployeeUseCase {
+public class TestDeleteEmployeeUseCase {
+  @Autowired private CreateEmployeeUseCase createEmployeeUseCase;
 
-  @Autowired private CreateEmployeeUseCase useCase;
+  @Autowired private DeleteEmployeeUseCase deleteEmployeeUseCase;
+
+  @Autowired private GetByIdOrThrowUseCase getByIdOrThrowUseCase;
 
   @Autowired private EmployeeRepository repo;
 
@@ -37,28 +40,13 @@ public class TestCreateEmployeeUseCase {
   }
 
   @Test
-  void shouldExecutingSuccessfully() {
-    CreateEmployeeDTO dto =
-        CreateEmployeeDTO.builder()
-            .fullName("Juan Carlos Chao")
-            .email("carlos@gmail.com")
-            .departmentId("4")
-            .salary(BigDecimal.valueOf(300L))
-            .role(Role.JUNIOR)
-            .position(Position.SOFTWARE_ENGINEER)
-            .build();
-    EmployeeModel result = useCase.execute(dto);
+  void shouldDeleteEmployeeSuccessfully() {
+    EmployeeModel model = createEmployeeUseCase.execute(getCreateEmployeeDTOForTest());
 
-    Assertions.assertEquals("Juan Carlos Chao", result.getFullName());
-    Assertions.assertEquals("carlos@gmail.com", result.getEmail());
-    Assertions.assertEquals("Juan Carlos Chao", result.getFullName());
-  }
+    deleteEmployeeUseCase.execute(model.getId());
 
-  @Test
-  void shouldFailToCreateEmployeeWithExistingEmail() {
-    useCase.execute(getCreateEmployeeDTOForTest());
+    EmployeeModel unactiveEmployee = getByIdOrThrowUseCase.execute(model.getId());
 
-    assertThrows(
-        AlreadyExistsException.class, () -> useCase.execute(getCreateEmployeeDTOForTest()));
+    Assertions.assertFalse(unactiveEmployee.getIsActive());
   }
 }

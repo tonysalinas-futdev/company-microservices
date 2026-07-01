@@ -17,28 +17,34 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class EmployeeEventsProducer {
-    private final KafkaProducer producer;
-    private final KafkaTopics topics;
-    private final EmployeeMapper mapper;
+  private final KafkaProducer producer;
+  private final KafkaTopics topics;
+  private final EmployeeMapper mapper;
 
-    public void produceEmployeeCreatedEvent(EmployeeCreatedDomainEvent domainEvent){
-        log.info("Sending employee created event to topic: {}, Event: {}", topics.getEmployeeCreated(), domainEvent);
-        EmployeeCreatedEvent event= mapper.employeeCreatedDomainEventToAvroEvent(domainEvent);
-        producer.send(topics.getEmployeeCreated(),event);
+  public void produceEmployeeCreatedEvent(EmployeeCreatedDomainEvent domainEvent) {
+    log.info(
+        "Sending employee created event to topic: {}, Event: {}",
+        topics.getEmployeeCreated(),
+        domainEvent);
+    EmployeeCreatedEvent event = mapper.employeeCreatedDomainEventToAvroEvent(domainEvent);
+    producer.send(topics.getEmployeeCreated(), event);
+  }
 
-    }
+  public void produceEmployeeUpdatedEvent(EmployeeUpdatedDomainEvent domainEvent) {
+    log.info(
+        "Sending employee updated event to topic: {}, Event: {}",
+        topics.getEmployeeUpdated(),
+        domainEvent);
+    EmployeeUpdatedEvent avroEvent = mapper.employeeUpdatedDomainEventToAvroEvent(domainEvent);
+    producer.send(topics.getEmployeeUpdated(), avroEvent);
+  }
 
-    public void produceEmployeeUpdatedEvent(EmployeeUpdatedDomainEvent domainEvent){
-        log.info("Sending employee updated event to topic: {}, Event: {}", topics.getEmployeeUpdated(), domainEvent);
-        EmployeeUpdatedEvent avroEvent=mapper.employeeUpdatedDomainEventToAvroEvent(domainEvent);
-        producer.send(topics.getEmployeeUpdated(),avroEvent);
-
-    }
-
-    public void produceEmployeeDeletedEvent(EmployeeDeletedDomainEvent domainEvent){
-        log.info("Sending employee deleted event to topic: {}, Event: {}", topics.getEmployeeDeleted(), domainEvent);
-        EmployeeDeletedEvent event= mapper.employeeDeletedEventToAvroEvent(domainEvent);
-        producer.send(topics.getEmployeeDeleted(), event);
-
-    }
+  public void produceEmployeeDeletedEvent(EmployeeDeletedDomainEvent domainEvent) {
+    log.info(
+        "Sending employee deleted event to topic: {}, Event: {}",
+        topics.getEmployeeDeleted(),
+        domainEvent);
+    EmployeeDeletedEvent event = mapper.employeeDeletedEventToAvroEvent(domainEvent);
+    producer.send(topics.getEmployeeDeleted(), event);
+  }
 }

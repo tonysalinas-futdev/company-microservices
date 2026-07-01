@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: employee-service-docker-container
     image: postgres:${POSTGRES_VERSION:-17}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"

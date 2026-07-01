@@ -1,13 +1,4 @@
 spring:
-  cloud:
-    config:
-      server:
-        native:
-          search-locations: file:${LOCAL_PATH}
-
-      username: ${CLOUD_USERNAME:user}
-      password: ${CLOUD_PASSWORD:s3cr3t}
-
   boot:
     admin:
       client:
@@ -15,10 +6,19 @@ spring:
         instance:
           service-host-type: ip
 
+  cloud:
 
+    config:
+      username: ${CLOUD_USERNAME:user}
+      password: ${CLOUD_PASSWORD:s3cr3t}
 
-server:
-  port: ${APPLICATION_PORT}
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
 
 
 eureka:
@@ -27,6 +27,8 @@ eureka:
       defaultZone: ${EUREKA_SERVER_URL}
   instance:
     prefer-ip-address: true
+server:
+  port: ${APPLICATION_PORT}
 
 
 management:

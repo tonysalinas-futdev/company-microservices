@@ -1,3 +1,5 @@
 spring:
   application:
     name: admin-server
+  config:
+    import:  optional:file:./admin-server/.env[.properties],optional:file:./.env[.properties],optional:configserver:http://localhost:8075

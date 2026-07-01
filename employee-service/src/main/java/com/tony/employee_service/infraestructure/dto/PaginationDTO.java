@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class PaginationDTO {
-    private final int page=0;
-    private final int items=10;
-
+  private final int page = 0;
+  private final int items = 10;
 }

@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmailUniquenessVerificationService {
-    private final EmployeeRepository repo;
+  private final EmployeeRepository repo;
 
-    public void verify(String email){
-        if (repo.findByEmail(email).isPresent()){
-            throw new AlreadyExistsException("Employee with the email: " + email + " already exists");
-        }
+  public void verify(String email) {
+    if (repo.findByEmail(email).isPresent()) {
+      throw new AlreadyExistsException("Employee with the email: " + email + " already exists");
     }
+  }
 }

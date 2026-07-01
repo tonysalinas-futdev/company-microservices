@@ -4,19 +4,37 @@ spring:
       username: ${CLOUD_USERNAME:user}
       password: ${CLOUD_PASSWORD:s3cr3t}
 
+  boot:
+    admin:
+      client:
+        url: ${ADMIN_SERVICE_URL}
+        instance:
+          service-host-type: ip
+
+
 server:
-  port: 8074
+  port: ${APPLICATION_PORT:8074}
 
 eureka:
   instance:
-    hostname: ${HOSTNAME}
+    hostname: ${HOSTNAME:localhost}
   client:
     fetch-registry: false
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${HOSTNAME:localhost}:${APPLICATION_PORT:8074}/eureka/
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server:
+          requests: true

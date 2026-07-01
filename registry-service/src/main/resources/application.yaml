@@ -3,28 +3,7 @@ spring:
   application:
     name: registry-service
 
-  cloud:
-    config:
-      username: ${CLOUD_USERNAME:user}
-      password: ${CLOUD_PASSWORD:s3cr3t}
 
   config:
-    import: optional:configserver:http://localhost:8075,optional:file:./registry-service/.env[.properties],optional:file:./.env[.properties]
+    import: optional:file:./registry-service/.env[.properties],optional:file:./.env[.properties],optional:configserver:http://localhost:8075
 
-
-server:
-  port: 8074
-
-eureka:
-  instance:
-    hostname: ${HOSTNAME}
-  client:
-    fetch-registry: false
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"

@@ -3,12 +3,11 @@ package com.tony.employee_service.infraestructure.models;
 import com.tony.employee_service.domain.entitys.Position;
 import com.tony.employee_service.domain.entitys.Role;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.math.BigDecimal;
-import java.time.Instant;
 
 @Getter
 @Setter
@@ -18,30 +17,30 @@ import java.time.Instant;
 @Table(name = "employee")
 @ToString
 public class EmployeeModel {
-    @Id
-    private String id;
+  @Id private String id;
 
-    @Column(name = "full_name")
-    private String fullName;
+  @Column(name = "full_name")
+  private String fullName;
 
-    private String email;
+  private String email;
 
-    private BigDecimal salary;
+  private BigDecimal salary;
 
-    private String departmentId;
-    @Enumerated(value = EnumType.STRING)
-    private Role role;
+  private String departmentId;
 
-    @Enumerated(value = EnumType.STRING)
-    private Position position;
+  @Enumerated(value = EnumType.STRING)
+  private Role role;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private Instant createdAt;
+  @Enumerated(value = EnumType.STRING)
+  private Position position;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Instant updatedAt;
+  @CreationTimestamp
+  @Column(name = "created_at")
+  private Instant createdAt;
 
-    private Boolean isActive;
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private Instant updatedAt;
+
+  private Boolean isActive;
 }

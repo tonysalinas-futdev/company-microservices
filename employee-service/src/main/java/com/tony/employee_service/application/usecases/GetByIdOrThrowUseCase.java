@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GetByIdOrThrowUseCase {
-    private final EmployeeRepository repo;
+  private final EmployeeRepository repo;
 
-    public EmployeeModel execute(String id){
-        return repo.findById(id).orElseThrow(()-> new NotFoundException("Employee with id:" + id + " not found"));
-    }
+  public EmployeeModel execute(String id) {
+    return repo.findById(id)
+        .orElseThrow(() -> new NotFoundException("Employee with id:" + id + " not found"));
+  }
 }

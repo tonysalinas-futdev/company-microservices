@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class DeleteEmployeeUseCase {
-    private final EmployeeRepository repo;
-    private final EmployeeEventsProducer producer;
-    private final GetByIdOrThrowUseCase getByIdOrThrowUseCase;
+  private final EmployeeRepository repo;
+  private final EmployeeEventsProducer producer;
+  private final GetByIdOrThrowUseCase getByIdOrThrowUseCase;
 
-    @Transactional
-    public void execute(String id){
-        EmployeeModel employee=getByIdOrThrowUseCase.execute(id);
-        employee.setIsActive(false);
-        repo.save(employee);
-        log.info("Setted employee: {} as inactive",employee);
-        EmployeeDeletedDomainEvent domainEvent=EmployeeDeletedDomainEvent.of(id);
-        producer.produceEmployeeDeletedEvent(domainEvent);
-    }
+  @Transactional
+  public void execute(String id) {
+    EmployeeModel employee = getByIdOrThrowUseCase.execute(id);
+    employee.setIsActive(false);
+    repo.save(employee);
+    log.info("Setted employee: {} as inactive", employee);
+    EmployeeDeletedDomainEvent domainEvent = EmployeeDeletedDomainEvent.of(id);
+    producer.produceEmployeeDeletedEvent(domainEvent);
+  }
 }

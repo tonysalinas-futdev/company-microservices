@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    config:
+      username: ${CLOUD_USERNAME:user}
+      password: ${CLOUD_PASSWORD:s3cr3t}
+
+
+
+server:
+  port: ${APPLICATION_PORT}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+  instance:
+    prefer-ip-address: true
+

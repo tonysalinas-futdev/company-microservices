@@ -1,0 +1,24 @@
+spring:
+  config:
+    import: optional:file:./department-service/.env[.properties],optional:file:./.env[.properties]
+  cloud:
+    config:
+      enabled: false
+
+  mongodb:
+    uri: mongodb://${DB_USERNAME:user}:${DB_PASSWORD:password}@${DB_HOST:localhost}:${DB_PORT:27017}/${TEST_DB_NAME:testdb}?authSource=admin
+    authentication-database: testdb
+
+eureka:
+  client:
+    enabled: false
+
+app:
+  kafka:
+    group-id: department-service-consumer
+    bootstrap-servers: ${BROKER_HOST:localhost}:${BROKER_PORT:9092}
+    schema-registry-url: http://${SCHEMA_REGISTRY_HOST:localhost}:${SCHEMA_REGISTRY_PORT:8081}
+    topics:
+      employee-created: employee.created
+      employee-updated: employee.updated
+      employee-deleted: employee.deleted

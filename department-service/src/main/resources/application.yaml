@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: department-service
+
+  mongodb:
+    uri: mongodb://${DB_USERNAME:user}:${DB_PASSWORD:password}@${DB_HOST:localhost}:${DB_PORT:27017}/${DB_NAME:departmentsdb}?authSource=admin
+
+  config:
+    import: optional:file:./department-service/.env[.properties],optional:file:./.env[.properties],optional:configserver:http://localhost:8075
+
+

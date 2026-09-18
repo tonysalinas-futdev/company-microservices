@@ -1,7 +1,8 @@
 rootProject.name="company-microservices"
 include 'employee-service'
-include 'company-service'
+include 'department-service'
 include 'config-server'
 include 'admin-server'
 include 'api-gateway'
 include 'registry-service'
+include 'avro-schemas-repo'

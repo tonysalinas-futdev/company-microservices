@@ -1,0 +1,29 @@
+plugins {
+	id 'java'
+    id 'org.springframework.boot' version '4.0.7'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.github.davidmc24.gradle.plugin.avro' version '1.9.1'
+}
+
+group = 'com.tony'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+    implementation 'org.apache.avro:avro:1.12.0'
+}
+
+
+avro{
+    stringType = "string"
+}

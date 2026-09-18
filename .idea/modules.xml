@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/company-service/company-microservices.company-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/company-service/company-microservices.company-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/department-service/company-microservices.department-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/department-service/company-microservices.department-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/department-service/company-microservices.department-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/department-service/company-microservices.department-service.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/employee-service/company-microservices.employee-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/employee-service/company-microservices.employee-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/employee-service/company-microservices.employee-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/employee-service/company-microservices.employee-service.test.iml" />
     </modules>

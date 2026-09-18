@@ -1,0 +1,51 @@
+spring:
+  cloud:
+    config:
+      username: ${CLOUD_USERNAME:user}
+      password: ${CLOUD_PASSWORD:s3cr3t}
+
+mongodb:
+  uri: mongodb://${DB_USERNAME:user}:${DB_PASSWORD:password}@${DB_HOST:localhost}:${DB_PORT:27017}/${DB_NAME:departmentsdb}
+
+boot:
+  admin:
+    client:
+      url: ${ADMIN_SERVICE_URL}
+      instance:
+        service-host-type: ip
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+  instance:
+    prefer-ip-address: true
+
+
+server:
+  port: ${APPLICATION_PORT}
+
+app:
+  kafka:
+    group-id: department-service-consumer
+    bootstrap-servers: ${BROKER_HOST:localhost}:${BROKER_PORT:9092}
+    schema-registry-url: http://${SCHEMA_REGISTRY_HOST:localhost}:${SCHEMA_REGISTRY_PORT:8081}
+    topics:
+      employee-created: employee.created
+      employee-updated: employee.updated
+      employee-deleted: employee.deleted
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server:
+          requests: true

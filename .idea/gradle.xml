@@ -10,8 +10,9 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/admin-server" />
             <option value="$PROJECT_DIR$/api-gateway" />
-            <option value="$PROJECT_DIR$/company-service" />
+            <option value="$PROJECT_DIR$/avro-schemas-repo" />
             <option value="$PROJECT_DIR$/config-server" />
+            <option value="$PROJECT_DIR$/department-service" />
             <option value="$PROJECT_DIR$/employee-service" />
             <option value="$PROJECT_DIR$/registry-service" />
           </set>

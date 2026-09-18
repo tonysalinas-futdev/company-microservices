@@ -13,4 +13,6 @@ public class KafkaTopics {
   private String employeeCreated;
   private String employeeUpdated;
   private String employeeDeleted;
+  private String employeeRemovedFromDepartment;
+  private String employeeAssignedToDepartment;
 }

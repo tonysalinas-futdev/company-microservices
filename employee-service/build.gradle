@@ -29,6 +29,7 @@ avro{
 }
 
 dependencies {
+    implementation project(":avro-schemas-repo")
     implementation 'org.javamoney:moneta:1.4.2'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'de.codecentric:spring-boot-admin-starter-client:4.0.4'

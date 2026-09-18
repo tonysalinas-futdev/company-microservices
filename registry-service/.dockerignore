@@ -1,0 +1,15 @@
+.idea/
+*.iml
+
+
+
+
+*.log
+*.tmp
+*.swp
+
+.DS_Store
+Thumbs.db
+
+.git
+.gitignore

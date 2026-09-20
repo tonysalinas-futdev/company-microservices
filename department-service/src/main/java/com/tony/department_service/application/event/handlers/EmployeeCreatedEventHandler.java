@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @AllArgsConstructor
 public class EmployeeCreatedEventHandler {
-    private EmployeeTopics topics;
     private DepartmentRepository repo;
     private GetDepartmentByIdOrThrowUseCase getDepartmentByIdOrThrowUseCase;
     private DepartmentMapper mapper;
@@ -37,7 +36,7 @@ public class EmployeeCreatedEventHandler {
         Department department=getDepartmentByIdOrThrowUseCase.execute(event.getDepartmentId());
 
         DepartmentEntity departmentEntity=mapper.modelToDomainEntity(department);
-        EmployeeEntity entity= new EmployeeEntity(event.getId(), event.getFullName());
+        EmployeeEntity entity= new EmployeeEntity(event.getId());
         departmentEntity.addNewEmployee(entity);
 
         Department updatedDepartment=mapper.entityToModel(departmentEntity);

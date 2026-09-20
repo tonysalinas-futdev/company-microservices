@@ -65,6 +65,6 @@ public class TestAssignDepartmentIdUseCase {
             null,
             true);
     repo.save(employee);
-    Assertions.assertThrows(EmployeeException.class, () -> useCase.execute(employee.getId(),"5"));
+    Assertions.assertThrows(EmployeeException.class, () -> useCase.execute(employee.getId(), "5"));
   }
 }

@@ -51,19 +51,20 @@ public class EmployeeEventsProducer {
         topics.getEmployeeRemovedFromDepartment(),
         domainEvent);
 
-      EmployeeRemovedFromDepartmentEvent event = mapper.employeeRemovedFromDepartmentToAvroEvent(domainEvent);
-      producer.send(topics.getEmployeeRemovedFromDepartment(), event);
+    EmployeeRemovedFromDepartmentEvent event =
+        mapper.employeeRemovedFromDepartmentToAvroEvent(domainEvent);
+    producer.send(topics.getEmployeeRemovedFromDepartment(), event);
   }
 
-    public void produceEmployeeAssignedToDepartmentEvent(
-            EmployeeAssignedToDepartmentDomainEvent domainEvent) {
-        log.info(
-                "Sending employee assigned to department event to topic: {}, Event: {}",
-                topics.getEmployeeAssignedToDepartment(),
-                domainEvent);
+  public void produceEmployeeAssignedToDepartmentEvent(
+      EmployeeAssignedToDepartmentDomainEvent domainEvent) {
+    log.info(
+        "Sending employee assigned to department event to topic: {}, Event: {}",
+        topics.getEmployeeAssignedToDepartment(),
+        domainEvent);
 
-        EmployeeAssignedToDepartment event = mapper.employeeAssignedToDepartmentToAvroEvent(domainEvent);
-        producer.send(topics.getEmployeeAssignedToDepartment(), event);
-    }
-
+    EmployeeAssignedToDepartment event =
+        mapper.employeeAssignedToDepartmentToAvroEvent(domainEvent);
+    producer.send(topics.getEmployeeAssignedToDepartment(), event);
+  }
 }

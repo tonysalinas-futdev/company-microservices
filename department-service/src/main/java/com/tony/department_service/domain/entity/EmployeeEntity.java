@@ -11,7 +11,5 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class EmployeeEntity {
     private final String id;
-    private final  String name;
-
 
 }

@@ -17,28 +17,26 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class AssignEmployeeToDepartmentUseCase {
-    private final EmployeeRepository repo;
-    private final EmployeeEventsProducer producer;
-    private final EmployeeMapper mapper;
-    private final GetByIdOrThrowUseCase getByIdOrThrowUseCase;
+  private final EmployeeRepository repo;
+  private final EmployeeEventsProducer producer;
+  private final EmployeeMapper mapper;
+  private final GetByIdOrThrowUseCase getByIdOrThrowUseCase;
 
-    public void execute(String employeeId, String departmentId) {
-        EmployeeModel employee = getByIdOrThrowUseCase.execute(employeeId);
+  public void execute(String employeeId, String departmentId) {
+    EmployeeModel employee = getByIdOrThrowUseCase.execute(employeeId);
 
-        if (employee.getDepartmentId() != null) {
-            throw new EmployeeException("The employee already have a department");
-        }
-
-        employee.setDepartmentId(departmentId);
-        Employee domainEntity = mapper.modelToEntity(employee);
-        repo.save(employee);
-        log.info("Assigned the department with id={} to employee with id={}", departmentId, employeeId);
-
-        EmployeeAssignedToDepartmentDomainEvent domainEvent = EmployeeAssignedToDepartmentDomainEvent.of(domainEntity);
-
-        producer.produceEmployeeAssignedToDepartmentEvent(domainEvent);
-
+    if (employee.getDepartmentId() != null) {
+      throw new EmployeeException("The employee already have a department");
     }
 
-}
+    employee.setDepartmentId(departmentId);
+    Employee domainEntity = mapper.modelToEntity(employee);
+    repo.save(employee);
+    log.info("Assigned the department with id={} to employee with id={}", departmentId, employeeId);
 
+    EmployeeAssignedToDepartmentDomainEvent domainEvent =
+        EmployeeAssignedToDepartmentDomainEvent.of(domainEntity);
+
+    producer.produceEmployeeAssignedToDepartmentEvent(domainEvent);
+  }
+}

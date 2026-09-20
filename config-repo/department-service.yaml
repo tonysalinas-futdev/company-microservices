@@ -33,6 +33,8 @@ app:
       employee-created: employee.created
       employee-updated: employee.updated
       employee-deleted: employee.deleted
+      employee-removed-from-department: employee.removed.from.department
+      employee-assigned-to-department: employee.assigned.to.department
 
 
 management:

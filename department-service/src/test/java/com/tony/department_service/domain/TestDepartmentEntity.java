@@ -40,14 +40,14 @@ public class TestDepartmentEntity {
     @Test
     void shouldAddNewEmployeeSuccessfully(){
         DepartmentEntity entity= getDepartmentForTest();
-        entity.addNewEmployee(new EmployeeEntity("234235", "Tony"));
+        entity.addNewEmployee(new EmployeeEntity("234235"));
         Assertions.assertEquals(1,entity.getEmployees().size());
     }
 
     @Test
     void shouldThrowDepartmentExceptionWhenAddExistentEmployee(){
         DepartmentEntity entity= getDepartmentForTest();
-        entity.addNewEmployee(new EmployeeEntity("234235", "Tony"));
-        Assertions.assertThrows(DepartmentException.class,()-> entity.addNewEmployee(new EmployeeEntity("234235", "Tony")));
+        entity.addNewEmployee(new EmployeeEntity("234235"));
+        Assertions.assertThrows(DepartmentException.class,()-> entity.addNewEmployee(new EmployeeEntity("234235")));
     }
 }

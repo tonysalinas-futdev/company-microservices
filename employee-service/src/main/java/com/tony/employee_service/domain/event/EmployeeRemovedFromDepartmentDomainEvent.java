@@ -1,9 +1,8 @@
 package com.tony.employee_service.domain.event;
 
 import com.tony.employee_service.domain.entitys.Employee;
-import lombok.*;
-
 import java.time.Instant;
+import lombok.*;
 
 @RequiredArgsConstructor
 @Builder
@@ -15,12 +14,11 @@ public class EmployeeRemovedFromDepartmentDomainEvent {
   private final String departmentId;
   private final Long timestamp;
 
-
   public static EmployeeRemovedFromDepartmentDomainEvent of(Employee employee) {
-        return EmployeeRemovedFromDepartmentDomainEvent.builder()
-                .id(employee.getId())
-                .departmentId(employee.getDepartmentId())
-                .timestamp(Instant.now().toEpochMilli())
-                .build();
-    }
+    return EmployeeRemovedFromDepartmentDomainEvent.builder()
+        .id(employee.getId())
+        .departmentId(employee.getDepartmentId())
+        .timestamp(Instant.now().toEpochMilli())
+        .build();
+  }
 }

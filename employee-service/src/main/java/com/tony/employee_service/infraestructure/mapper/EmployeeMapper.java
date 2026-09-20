@@ -25,7 +25,8 @@ public interface EmployeeMapper extends MapperUtil {
   EmployeeRemovedFromDepartmentEvent employeeRemovedFromDepartmentToAvroEvent(
       EmployeeRemovedFromDepartmentDomainEvent event);
 
-  EmployeeAssignedToDepartment employeeAssignedToDepartmentToAvroEvent(EmployeeAssignedToDepartmentDomainEvent domainEvent);
+  EmployeeAssignedToDepartment employeeAssignedToDepartmentToAvroEvent(
+      EmployeeAssignedToDepartmentDomainEvent domainEvent);
 
   Employee modelToEntity(EmployeeModel model);
 

@@ -3,7 +3,6 @@ spring:
   application:
     name: registry-service
 
-
   config:
-    import: optional:file:./registry-service/.env[.properties],optional:file:./.env[.properties],optional:configserver:http://localhost:8075
+    import: optional:file:./registry-service/.env[.properties],optional:configserver:${CONFIG_SERVER_URL:http://localhost:8075}
 

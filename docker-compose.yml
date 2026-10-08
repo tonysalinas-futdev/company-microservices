@@ -71,12 +71,218 @@ services:
       retries: 5
 
 
+  postgres:
+      container_name: employee-service-postgres-container
+      image: postgres:${POSTGRES_VERSION:-17}
+      ports:
+        - "${POSTGRES_PORT:-5432}:5432"
+      environment:
+        POSTGRES_USER: ${POSTGRES_USER:-user}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+        POSTGRES_DB: ${POSTGRES_DB:-employeesdb}
+      env_file:
+        - ./employee-service/.env
+      healthcheck:
+        test: [ "CMD-SHELL", "bash -c '</dev/tcp/${POSTGRES_HOST:-localhost}/${POSTGRES_PORT:-5432}'" ]
+        interval: 10s
+        timeout: 20s
+        retries: 5
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+
+  employee-service:
+    container_name: employee-service-container
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      broker:
+        condition: service_healthy
+      schema-registry:
+        condition: service_healthy
+      registry-service:
+        condition: service_started
+
+      config-service:
+        condition: service_healthy
+
+    environment:
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL:-http://config-service:8075}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL:-http://registry-service:8074/eureka/}
+      ADMIN-SERVICE-URL: ${ADMIN_SERVICE_URL:-http://admin-service:8040}
+      BROKER_HOST: broker
+      BROKER_PORT: 29022
+      SCHEMA_REGISTRY_HOST: schema-registry
+      SCHEMA_REGISTRY_PORT: 8081
+      POSTGRES_HOST: postgres
+
+    env_file:
+      - ./employee-service/.env
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: employee-service/Dockerfile
+
+    volumes:
+      - employee-service-data:/employee-service/data
+
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "curl -f http://localhost:8080/actuator/health || exit 1"
+      ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+
+    networks:
+      - company-network
+      - kafka
+
+  config-service:
+    ports:
+      - "8075:8075"
+    container_name: config-service-container
+    build:
+      context: .
+      dockerfile: config-server/Dockerfile
+    environment:
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL:-http://registry-service:8074/eureka/}
+      ADMIN-SERVICE-URL: ${ADMIN_SERVICE_URL:-http://admin-service:8040}
+      LOCAL_PATH: /app/config-repo
+    volumes:
+      - config-server-data:/config-server/data
+
+    env_file:
+      - ./config-server/.env
+
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "curl -f http://localhost:8075/actuator/health || exit 1"
+      ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+
+    networks:
+      - company-network
+
+  registry-service:
+    ports:
+      - "8074:8074"
+    container_name: registry-service-container
+
+    build:
+      context: .
+      dockerfile: registry-service/Dockerfile
+
+    environment:
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL:-http://config-service:8075}
+      HOSTNAME: registry-service
+      ADMIN-SERVICE-URL: ${ADMIN_SERVICE_URL:-http://admin-service:8040}
+
+    env_file:
+      - ./registry-service/.env
+
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "curl -f http://localhost:8074/actuator/health || exit 1"
+      ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+    volumes:
+      - registry-service-data:/registry-service/data
+
+    networks:
+      company-network:
+
+
+
+  api-gateway:
+    ports:
+      - "8037:8037"
+    container_name: api-gateway-container
+
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+
+    environment:
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL:-http://config-service:8075}
+      ADMIN-SERVICE-URL: ${ADMIN_SERVICE_URL:-http://admin-service:8040}
+    env_file:
+      - ./api-gateway/.env
+
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "curl -f http://localhost:8037/actuator/health || exit 1"
+      ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+    volumes:
+      - api-gateway-data:/api-gateway/data
+
+    networks:
+      company-network:
+
+
+  admin-server:
+    ports:
+      - "8040:8040"
+    container_name: admin-server-container
+
+    build:
+      context: .
+      dockerfile: admin-server/Dockerfile
+
+
+    env_file:
+      - ./admin-server/.env
+
+
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "curl -f http://localhost:8040/actuator/health || exit 1"
+      ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+    volumes:
+      - admin-server-data:/registry-service/data
+
+    networks:
+      company-network:
+
 volumes:
   mongodata:
   kafka-data:
+  pgdata:
+  config-server-data:
+  employee-service-data:
+  registry-service-data:
+  api-gateway-data:
+  admin-server-data:
+
 
 
 
 networks:
   kafka:
     driver: bridge
+  company-network:

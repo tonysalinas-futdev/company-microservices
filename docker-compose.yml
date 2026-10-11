@@ -55,11 +55,14 @@ services:
       timeout: 10s
       retries: 5
   mongo:
+    container_name: department-service-mongo-container
     image: mongo:8.0.21
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: tony
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - ./employee-service/.env
     ports:
       - "27017:27017"
     volumes:
@@ -100,8 +103,6 @@ services:
         condition: service_healthy
       schema-registry:
         condition: service_healthy
-      registry-service:
-        condition: service_started
 
       config-service:
         condition: service_healthy
@@ -204,6 +205,55 @@ services:
     networks:
       company-network:
 
+  department-service:
+    container_name: department-service-container
+
+    depends_on:
+      mongo:
+        condition: service_healthy
+      broker:
+        condition: service_healthy
+      schema-registry:
+        condition: service_healthy
+
+      config-service:
+        condition: service_healthy
+
+    environment:
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL:-http://config-service:8075}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL:-http://registry-service:8074/eureka/}
+      ADMIN-SERVICE-URL: ${ADMIN_SERVICE_URL:-http://admin-service:8040}
+      DB_HOST: mongo
+      BROKER_HOST: broker
+      BROKER_PORT: 29022
+      SCHEMA_REGISTRY_HOST: schema-registry
+      SCHEMA_REGISTRY_PORT: 8081
+      POSTGRES_HOST: postgres
+
+    env_file:
+      - ./department-service/.env
+    ports:
+      - "8054:8054"
+    build:
+      context: .
+      dockerfile: department-service/Dockerfile
+
+    volumes:
+      - department-service-data:/department-service/data
+
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "curl -f http://localhost:8054/actuator/health || exit 1"
+      ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+
+    networks:
+      - company-network
+      - kafka
+
 
 
   api-gateway:
@@ -249,8 +299,9 @@ services:
     build:
       context: .
       dockerfile: admin-server/Dockerfile
-
-
+    environment:
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL:-http://config-service:8075}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL:-http://registry-service:8074/eureka/}
     env_file:
       - ./admin-server/.env
 

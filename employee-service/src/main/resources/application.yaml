@@ -3,7 +3,7 @@ spring:
     name: employee-service
 
   config:
-    import: optional:file:./employee-service/.env[.properties],optional:file:./.env[.properties],optional:configserver:http://localhost:8075
+    import: optional:file:./employee-service/.env[.properties],optional:file:./.env[.properties],optional:configserver:${CONFIG_SERVER_URL:http://localhost:8075}
 
 
   profiles:
